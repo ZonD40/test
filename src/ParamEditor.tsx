@@ -1,12 +1,17 @@
 import React from 'react';
 
-type Color = 'red' | 'green' | 'blue';
+export enum Color  {
+	red = 'red',
+	green = 'green',
+	blue = 'blue',
+};
 
-interface Param {
+export interface Param {
 	id: number;
 	name: string;
-	type: 'string';
+	type: 'string'
 }
+
 interface ParamValue {
 	paramId: number;
 	value: string;
@@ -32,7 +37,6 @@ class ParamEditor extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-
 		this.handleChange = this.handleChange.bind(this);
 		this.getModel = this.getModel.bind(this);
 	}
@@ -46,11 +50,16 @@ class ParamEditor extends React.Component<Props, State> {
 
 	handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 		this.setState({
-			paramValues: this.state.paramValues.map(elem => elem.paramId === +event.target.id 
+			paramValues: this.state.paramValues.map(parameter => {
+				return parameter.paramId === +event.target.id 
 				? 
-				{paramId: elem.paramId, value: event.target.value} 
+				{
+					paramId: parameter.paramId, 
+					value: event.target.value
+				} 
 				: 
-				elem)
+				parameter
+			})
 		});
 	}
 
@@ -64,6 +73,7 @@ class ParamEditor extends React.Component<Props, State> {
 					<input type="text" value={value} id={String(param.id)} onChange={this.handleChange}/>
 				</div>
 			})}
+
 			<button onClick={() => console.log(this.getModel())}>getModel</button>
 		</div>	
 	}
